@@ -1,0 +1,12 @@
+{
+  "name": "innovation-cellar-landing",
+  "version": "1.0.0",
+  "description": "Innovation Cellar Landing Page with Live Reload",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=5500"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

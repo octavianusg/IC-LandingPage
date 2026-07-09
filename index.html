@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <script>document.documentElement.classList.add("js");</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Innovation Cellar — Transformasi Pembelajaran Sekolah</title>
+  <meta name="description" content="Innovation Cellar adalah mitra pedagogi untuk transformasi pembelajaran sekolah yang bermakna — pelatihan guru iPad dan ekosistem Apple education di Indonesia.">
+  <meta property="og:title" content="Innovation Cellar — Conscious step, meaningful transformation">
+  <meta property="og:description" content="Mitra pedagogi untuk transformasi sekolah yang bermakna, didukung ekosistem pembelajaran Apple.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://innovationcellar.com">
+
+  <!-- ANALYTICS (activate on deploy): uncomment ONE of the two.
+  <script defer data-domain="innovationcellar.com" src="https://plausible.io/js/script.tagged-events.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --purple: #990FFA;
+      --deep: #5E00B3;
+      --rose: #E60076;
+      --ink: #2B1A45;
+      --muted: #5F4B82;
+      --lav: #F7F1FF;
+      --lav-2: #EFE4FF;
+      --white: #FFFFFF;
+      --glass: rgba(255, 255, 255, .62);
+      --glass-border: rgba(255, 255, 255, .85);
+      --shadow: 0 24px 60px -24px rgba(94, 0, 179, .25);
+      --radius: 28px;
+      --serif: 'EB Garamond', Georgia, serif;
+      --sans: 'Montserrat', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--lav);
+      line-height: 1.7;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--purple); color: #fff; }
+
+    /* ---------- Atmosphere ---------- */
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background:
+        radial-gradient(52% 44% at 12% 6%, #EDDCFF 0%, transparent 100%),
+        radial-gradient(46% 40% at 92% 18%, #F4E3FF 0%, transparent 100%),
+        radial-gradient(60% 52% at 84% 92%, #FBE3F1 0%, transparent 100%),
+        radial-gradient(44% 40% at 6% 78%, #E9DBFF 0%, transparent 100%),
+        var(--lav);
+    }
+    .atmosphere::after {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background-image: radial-gradient(rgba(94, 0, 179, .05) 1px, transparent 1.6px);
+      background-size: 26px 26px;
+      transform: rotate(8deg);
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 52% 48% 61% 39% / 44% 59% 41% 56%;
+      filter: blur(60px);
+      opacity: .5;
+      animation: drift 26s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 44vw; height: 44vw; top: -14vw; right: -10vw; background: linear-gradient(140deg, #D9B6FF, #EFC7FF); }
+    .blob-2 { width: 34vw; height: 34vw; bottom: -8vw; left: -10vw; background: linear-gradient(140deg, #E4CDFF, #FFD1E8); animation-delay: -9s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) rotate(0deg); }
+      to { transform: translate(3vw, 4vh) rotate(14deg); }
+    }
+
+    /* ---------- Typography ---------- */
+    h1, h2, h3, .serif {
+      font-family: var(--serif);
+      font-weight: 600;
+      line-height: 1.14;
+      letter-spacing: -0.012em;
+      color: var(--ink);
+    }
+    h1 { font-size: clamp(2.5rem, 6.4vw, 4.35rem); }
+    h2 { font-size: clamp(1.9rem, 4.4vw, 3rem); }
+    h3 { font-size: 1.35rem; font-weight: 600; }
+    em { font-style: italic; }
+    .accent-ital { font-style: italic; color: var(--purple); }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--rose);
+      display: inline-flex;
+      align-items: center;
+      gap: .7em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 26px; height: 2px;
+      background: var(--rose);
+      border-radius: 2px;
+    }
+
+    .lede { font-size: clamp(1.02rem, 2vw, 1.18rem); color: var(--muted); max-width: 34em; }
+
+    /* ---------- Layout ---------- */
+    .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+    section { padding: clamp(4.5rem, 9vw, 7.5rem) 0; position: relative; }
+    .sec-head { max-width: 620px; margin-bottom: clamp(2.4rem, 5vw, 4rem); display: grid; gap: 1.1rem; }
+
+    /* ---------- Reveal animation ----------
+       Hidden state only applies when JS is running (html.js),
+       so the page stays fully visible in no-JS contexts
+       (Quick Look, iCloud preview, readers). */
+    .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1); transition-delay: var(--d, 0s); }
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .blob, .float, .chip { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---------- Nav ---------- */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 60;
+      transition: background .3s, box-shadow .3s, backdrop-filter .3s;
+    }
+    header.scrolled {
+      background: rgba(247, 241, 255, .8);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 1px 0 rgba(94, 0, 179, .08);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 0;
+      gap: 1rem;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.28rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      white-space: nowrap;
+    }
+    .brand svg { flex: none; }
+    .nav-right { display: flex; align-items: center; gap: .8rem; }
+
+    .lang-toggle {
+      display: inline-flex;
+      border: 1.5px solid rgba(94, 0, 179, .22);
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .55);
+      backdrop-filter: blur(8px);
+    }
+    .lang-toggle button {
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: .42em 1em;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .lang-toggle button.active { background: var(--deep); color: #fff; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: .92rem;
+      letter-spacing: .02em;
+      display: inline-flex;
+      align-items: center;
+      gap: .6em;
+      padding: 1em 1.9em;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(120deg, var(--purple), var(--deep) 90%);
+      box-shadow: 0 14px 34px -12px rgba(153, 15, 250, .55);
+      transition: transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 44px -12px rgba(153, 15, 250, .6); }
+    .btn:active { transform: translateY(-1px); }
+    .btn:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
+    .btn .arr { transition: transform .25s; }
+    .btn:hover .arr { transform: translateX(4px); }
+
+    .btn-nav { padding: .7em 1.4em; font-size: .8rem; }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .7);
+      color: var(--deep);
+      box-shadow: inset 0 0 0 1.5px rgba(94, 0, 179, .28);
+    }
+    .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px rgba(94, 0, 179, .5), 0 14px 30px -14px rgba(94,0,179,.3); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding-top: clamp(6rem, 12vh, 8rem);
+      padding-bottom: 4rem;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+    .hero-copy { display: grid; gap: 1.5rem; justify-items: start; }
+    .hero h1 .line { display: block; }
+    .trust {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .6em;
+    }
+    .trust svg { flex: none; }
+
+    /* Hero visual */
+    .hero-visual { position: relative; min-height: 420px; }
+    .hero-visual svg.scene { width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 50px rgba(94, 0, 179, .18)); }
+
+    .chip {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: .55em;
+      font-size: .74rem;
+      font-weight: 700;
+      color: var(--deep);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: .65em 1.1em;
+      border-radius: 999px;
+      box-shadow: 0 12px 30px -10px rgba(94, 0, 179, .28);
+      animation: floaty 7s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); flex: none; }
+    .chip-1 { top: 6%; left: -2%; animation-delay: -1s; }
+    .chip-2 { bottom: 20%; right: -3%; animation-delay: -3.5s; }
+    .chip-3 { bottom: -2%; left: 10%; animation-delay: -5.5s; }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ---------- Problem ---------- */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+    .pain-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      padding: 2rem 1.8rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: .9rem;
+      align-content: start;
+      transition: transform .3s cubic-bezier(.22,.61,.36,1);
+    }
+    .pain-card:hover { transform: translateY(-6px); }
+    .pain-card .glyph {
+      width: 58px; height: 58px;
+      border-radius: 46% 54% 55% 45% / 52% 44% 56% 48%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(153,15,250,.14), rgba(230,0,118,.12));
+    }
+    .pain-card h3 { font-size: 1.4rem; }
+    .pain-card p { font-size: .92rem; color: var(--muted); }
+
+    /* ---------- Journey ---------- */
+    .journey { position: relative; }
+    .journey-track { position: relative; max-width: 880px; margin: 0 auto; padding: 1rem 0; }
+    .spine {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 190px;
+      transform: translateX(-50%);
+      height: 100%;
+      pointer-events: none;
+    }
+    .spine path {
+      stroke: url(#spineGrad);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 2 10;
+      stroke-linecap: round;
+    }
+    .phase {
+      position: relative;
+      display: flex;
+      padding: 1.6rem 0;
+    }
+    .phase:nth-child(odd) { justify-content: flex-start; }
+    .phase:nth-child(even) { justify-content: flex-end; }
+    .phase-card {
+      width: 44%;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      padding: 1.7rem 1.7rem 1.8rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: .5rem;
+      transition: transform .3s cubic-bezier(.22,.61,.36,1);
+    }
+    .phase-card:hover { transform: translateY(-5px); }
+    .phase-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: .95rem;
+      color: var(--rose);
+      font-weight: 500;
+    }
+    .phase-card h3 { font-size: 1.55rem; }
+    .phase-card p { font-size: .9rem; color: var(--muted); }
+    .node {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--rose));
+      border: 4px solid var(--lav);
+      box-shadow: 0 0 0 3px rgba(153, 15, 250, .25), 0 8px 20px -6px rgba(153, 15, 250, .5);
+      z-index: 2;
+    }
+    .journey-note {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--deep);
+    }
+
+    /* ---------- Benefits ---------- */
+    .benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .benefit-card {
+      border-radius: var(--radius);
+      padding: 2.2rem 1.9rem;
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+      position: relative;
+      overflow: hidden;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+    .benefit-card.feature {
+      background: linear-gradient(150deg, var(--deep) 0%, var(--purple) 85%);
+      color: #fff;
+    }
+    .benefit-card.feature h3, .benefit-card.feature p { color: #fff; }
+    .benefit-card.feature p { opacity: .88; }
+    .benefit-card.feature::after {
+      content: "";
+      position: absolute;
+      width: 220px; height: 220px;
+      right: -70px; bottom: -80px;
+      border-radius: 52% 48% 61% 39% / 44% 59% 41% 56%;
+      background: rgba(255, 255, 255, .12);
+    }
+    .benefit-tag {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+    .benefit-card.feature .benefit-tag { color: #FFC7E4; }
+    .benefit-card h3 { font-size: 1.5rem; }
+    .benefit-card p { font-size: .92rem; color: var(--muted); }
+
+    /* ---------- Proof ---------- */
+    .proof-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      margin-bottom: 3rem;
+    }
+    .stat {
+      text-align: center;
+      padding: 2.2rem 1.4rem;
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: .4rem;
+    }
+    .stat .num {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1;
+      background: linear-gradient(120deg, var(--purple), var(--rose));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat .lbl { font-size: .84rem; font-weight: 600; color: var(--muted); max-width: 22em; margin: 0 auto; }
+
+    .story {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem);
+      border-radius: 36px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .story::before {
+      content: "“";
+      position: absolute;
+      top: -0.18em;
+      left: .35em;
+      font-family: var(--serif);
+      font-size: 7rem;
+      line-height: 1;
+      color: rgba(153, 15, 250, .18);
+    }
+    .story p.quote {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .story .attrib {
+      margin-top: 1.2rem;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    /* ---------- Team ---------- */
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .team-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.7rem;
+      display: grid;
+      gap: .8rem;
+      justify-items: start;
+    }
+    .avatar {
+      width: 72px; height: 72px;
+      border-radius: 46% 54% 55% 45% / 52% 44% 56% 48%;
+      display: grid;
+      place-items: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.5rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--rose));
+    }
+    .team-card h3 { font-size: 1.3rem; }
+    .team-card .role { font-size: .82rem; font-weight: 600; color: var(--muted); }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5em;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--deep);
+      background: rgba(153, 15, 250, .1);
+      border: 1px solid rgba(153, 15, 250, .25);
+      padding: .45em 1em;
+      border-radius: 999px;
+    }
+    .team-phil {
+      margin-top: 2.6rem;
+      text-align: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+      color: var(--deep);
+    }
+
+    /* ---------- Final CTA ---------- */
+    .book-panel {
+      border-radius: 44px;
+      background: linear-gradient(150deg, var(--deep) 0%, var(--purple) 70%, #B23BFF 100%);
+      color: #fff;
+      padding: clamp(2.6rem, 6vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 80px -30px rgba(94, 0, 179, .55);
+    }
+    .book-panel::before, .book-panel::after {
+      content: "";
+      position: absolute;
+      border-radius: 52% 48% 61% 39% / 44% 59% 41% 56%;
+      background: rgba(255, 255, 255, .1);
+    }
+    .book-panel::before { width: 340px; height: 340px; top: -140px; right: -100px; }
+    .book-panel::after { width: 260px; height: 260px; bottom: -120px; left: -80px; background: rgba(230, 0, 118, .25); }
+    .book-inner { position: relative; z-index: 1; display: grid; gap: 1.4rem; max-width: 620px; }
+    .book-panel h2 { color: #fff; }
+    .book-panel .lede { color: rgba(255, 255, 255, .85); }
+    .btn-light {
+      background: #fff;
+      color: var(--deep);
+      box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .35);
+    }
+    .btn-light:hover { box-shadow: 0 22px 48px -12px rgba(0, 0, 0, .4); }
+    .book-alt { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+    .alt-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5em;
+      font-size: .84rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1.5px solid rgba(255, 255, 255, .4);
+      padding-bottom: .15em;
+      transition: border-color .25s;
+    }
+    .alt-link:hover { border-color: #fff; }
+
+    .scheduler-shell {
+      position: relative;
+      z-index: 1;
+      margin-top: 2.4rem;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .96);
+      min-height: 120px;
+      display: none;
+    }
+    .scheduler-shell.active { display: block; }
+    .scheduler-shell iframe { display: block; width: 100%; height: 640px; border: 0; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      padding: 3rem 0 7rem;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .foot {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.2rem;
+      border-top: 1px solid rgba(94, 0, 179, .12);
+      padding-top: 2rem;
+    }
+    .foot a { color: var(--deep); text-decoration: none; font-weight: 600; }
+    .foot a:hover { text-decoration: underline; }
+
+    /* ---------- Mobile sticky CTA ---------- */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 55;
+      padding: .8rem 5vw calc(.8rem + env(safe-area-inset-bottom));
+      background: rgba(247, 241, 255, .85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 -1px 0 rgba(94, 0, 179, .1);
+      transform: translateY(110%);
+      transition: transform .4s cubic-bezier(.22,.61,.36,1);
+      display: none;
+    }
+    .sticky-cta.show { transform: translateY(0); }
+    .sticky-cta .btn { width: 100%; justify-content: center; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .pain-grid, .benefit-grid, .team-grid, .proof-stats { grid-template-columns: 1fr 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 0; max-width: 480px; margin: 0 auto; width: 100%; }
+    }
+
+    @media (max-width: 640px) {
+      .pain-grid, .benefit-grid, .team-grid, .proof-stats { grid-template-columns: 1fr; }
+      .hero { padding-top: 6.2rem; min-height: 0; }
+      .nav .btn-nav { display: none; }
+      .sticky-cta { display: block; }
+
+      .spine { left: 22px; width: 60px; transform: none; }
+      .phase, .phase:nth-child(even) { justify-content: flex-start; padding-left: 62px; }
+      .phase-card { width: 100%; }
+      .node { left: 22px; }
+      .chip { font-size: .66rem; }
+      .chip-1 { left: 0; }
+      .chip-2 { right: 0; }
+      footer { padding-bottom: 9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="atmosphere" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- ================= NAV ================= -->
+  <header id="header">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Innovation Cellar">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M20 3C11 3 4.5 10 4.5 19.5c0 10.5 8.5 17 15.5 17s15.5-6.5 15.5-17C35.5 10 29 3 20 3Z" fill="url(#logoGrad)"/>
+          <path d="M20 10.5c-4.7 4.2-7 8-7 11.4 0 4.4 3.1 7.6 7 7.6s7-3.2 7-7.6c0-3.4-2.3-7.2-7-11.4Z" fill="#fff" opacity=".92"/>
+          <circle cx="20" cy="22" r="3" fill="#E60076"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="4" y1="4" x2="36" y2="36">
+              <stop stop-color="#990FFA"/><stop offset="1" stop-color="#5E00B3"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        Innovation Cellar
+      </a>
+      <div class="nav-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-id" class="active" onclick="setLang('id')">ID</button>
+          <button type="button" id="lang-en" onclick="setLang('en')">EN</button>
+        </div>
+        <a class="btn btn-nav js-cta" href="#book" data-i18n="cta_short">Jadwalkan Sesi Diskusi</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ================= S1 · HERO ================= -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow reveal">Conscious step, meaningful transformation</span>
+          <h1 class="reveal" style="--d:.08s" data-i18n="hero_h1">Transformasi sekolah dimulai dari <em class="accent-ital">manusianya</em>, bukan perangkatnya.</h1>
+          <p class="lede reveal" style="--d:.16s" data-i18n="hero_sub">Innovation Cellar adalah mitra pedagogi untuk transformasi sekolah yang bermakna — didukung ekosistem pembelajaran Apple.</p>
+          <a class="btn js-cta reveal" style="--d:.24s" href="#book">
+            <span data-i18n="cta_main">Jadwalkan Sesi Diskusi</span>
+            <span class="arr" aria-hidden="true">→</span>
+          </a>
+          <p class="trust reveal" style="--d:.32s">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.3l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.5Z" fill="#E60076"/></svg>
+            <span data-i18n="hero_trust">Dipercaya sekolah-sekolah di Jabodetabek, Bali &amp; Batam</span>
+          </p>
+        </div>
+
+        <!-- Generated hero illustration: organic growth scene, no faces -->
+        <div class="hero-visual reveal" style="--d:.2s">
+          <svg class="scene" viewBox="0 0 520 480" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Organic illustration of a seed growing into a flourishing form">
+            <defs>
+              <linearGradient id="hg1" x1="60" y1="80" x2="470" y2="430">
+                <stop stop-color="#990FFA"/><stop offset="1" stop-color="#5E00B3"/>
+              </linearGradient>
+              <linearGradient id="hg2" x1="120" y1="380" x2="420" y2="120">
+                <stop stop-color="#E60076"/><stop offset="1" stop-color="#990FFA"/>
+              </linearGradient>
+              <linearGradient id="hg3" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#FFFFFF" stop-opacity=".95"/><stop offset="1" stop-color="#F3E6FF" stop-opacity=".8"/>
+              </linearGradient>
+            </defs>
+            <!-- backdrop blob -->
+            <path d="M258 22c96-14 208 44 228 142 21 103-52 196-142 236-93 41-208 26-268-56C18 262 20 158 84 96 138 44 186 33 258 22Z" fill="url(#hg1)" opacity=".14"/>
+            <!-- main organic form -->
+            <path d="M262 58c74-8 158 36 176 116 19 86-38 158-110 192-74 35-166 24-215-42-47-63-44-146 6-197 43-43 84-61 143-69Z" fill="url(#hg1)" opacity=".9"/>
+            <!-- inner glow blob -->
+            <path d="M268 118c48-6 104 24 116 77 12 56-25 104-72 126-49 23-110 16-142-27-31-42-29-96 4-130 28-29 55-40 94-46Z" fill="#fff" opacity=".14"/>
+            <!-- growing stem -->
+            <path d="M262 372c-4-56 4-104 26-146 15-29 37-54 66-73" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".95"/>
+            <!-- leaves -->
+            <path d="M354 153c2-26-12-48-40-58 -4 27 10 49 40 58Z" fill="#fff" opacity=".95"/>
+            <path d="M283 226c-25-9-50-4-68 16 22 16 48 12 68-16Z" fill="#fff" opacity=".8"/>
+            <path d="M300 300c24-12 37-33 34-60-26 8-40 30-34 60Z" fill="#fff" opacity=".65"/>
+            <!-- seed -->
+            <ellipse cx="262" cy="384" rx="17" ry="13" fill="url(#hg2)"/>
+            <!-- orbit path -->
+            <path d="M96 300C60 208 128 96 250 82c122-14 216 62 212 156" stroke="url(#hg2)" stroke-width="2.5" stroke-dasharray="1 12" stroke-linecap="round" opacity=".8"/>
+            <!-- orbit satellites -->
+            <circle cx="96" cy="300" r="9" fill="#E60076"/>
+            <circle cx="250" cy="82" r="7" fill="#fff"/>
+            <circle cx="462" cy="238" r="9" fill="url(#hg2)"/>
+            <!-- ground shadow -->
+            <ellipse cx="262" cy="430" rx="130" ry="16" fill="#5E00B3" opacity=".12"/>
+          </svg>
+
+          <span class="chip chip-1"><span class="dot"></span><span data-i18n="chip_apls">Apple Professional Learning Specialist</span></span>
+          <span class="chip chip-2"><span class="dot"></span><span data-i18n="chip_ssc">3× Swift Student Challenge</span></span>
+          <span class="chip chip-3"><span class="dot"></span><span data-i18n="chip_since">Mendampingi sekolah sejak 2024</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S2 · PROBLEM ================= -->
+    <section id="problem">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow reveal" data-i18n="prob_eyebrow">Yang sering terjadi</span>
+          <h2 class="reveal" style="--d:.08s" data-i18n="prob_h2">Mungkin ini terasa akrab di sekolah Anda</h2>
+        </div>
+        <div class="pain-grid">
+          <div class="pain-card reveal">
+            <div class="glyph" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="3" width="18" height="22" rx="4" stroke="#5E00B3" stroke-width="2"/><path d="M10 25v-3M18 25v-3" stroke="#5E00B3" stroke-width="2" stroke-linecap="round"/><path d="M4 10l20 9" stroke="#E60076" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 data-i18n="pain1_h">Perangkat sudah dibeli, tapi jarang tersentuh</h3>
+            <p data-i18n="pain1_p">iPad dan teknologi sudah hadir di sekolah — namun pembelajaran di kelas masih berjalan seperti sebelumnya.</p>
+          </div>
+          <div class="pain-card reveal" style="--d:.1s">
+            <div class="glyph" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="#5E00B3" stroke-width="2"/><path d="M14 8v6l4 3" stroke="#E60076" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 data-i18n="pain2_h">Pelatihan berhenti saat pelatihnya pulang</h3>
+            <p data-i18n="pain2_p">Semangat guru menyala saat workshop, lalu perlahan padam karena tidak ada pendampingan yang berkelanjutan.</p>
+          </div>
+          <div class="pain-card reveal" style="--d:.2s">
+            <div class="glyph" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 24V13M11 24V8M18 24v-9M25 24V5" stroke="#5E00B3" stroke-width="2" stroke-linecap="round"/><circle cx="25" cy="5" r="3" fill="#E60076"/></svg>
+            </div>
+            <h3 data-i18n="pain3_h">Yayasan dan orang tua menunggu bukti</h3>
+            <p data-i18n="pain3_p">Investasi teknologi perlu terlihat hasilnya pada pembelajaran yang nyata — bukan sekadar di brosur sekolah.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S3 · JOURNEY ================= -->
+    <section id="journey" class="journey">
+      <div class="wrap">
+        <div class="sec-head" style="margin-inline:auto; text-align:center; justify-items:center;">
+          <span class="eyebrow reveal" data-i18n="jour_eyebrow">Perjalanan, bukan paket</span>
+          <h2 class="reveal" style="--d:.08s" data-i18n="jour_h2">Lima fase yang tumbuh bersama sekolah Anda</h2>
+          <p class="lede reveal" style="--d:.14s" data-i18n="jour_sub">Setiap sekolah punya irama sendiri. Perjalanan ini mengikuti irama Anda — bukan sebaliknya.</p>
+        </div>
+
+        <div class="journey-track">
+          <svg class="spine" viewBox="0 0 190 1000" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#990FFA"/><stop offset=".55" stop-color="#5E00B3"/><stop offset="1" stop-color="#E60076"/>
+              </linearGradient>
+            </defs>
+            <path d="M95 0 C 30 120, 160 200, 95 310 C 40 400, 155 480, 95 590 C 40 690, 160 760, 95 880 C 60 950, 95 980, 95 1000"/>
+          </svg>
+
+          <div class="phase reveal">
+            <span class="node" aria-hidden="true"></span>
+            <div class="phase-card">
+              <span class="phase-num" data-i18n="ph1_n">Fase 01</span>
+              <h3>Engage</h3>
+              <p data-i18n="ph1_p">Kami mendengarkan lebih dulu — memahami konteks, budaya, dan cita-cita sekolah Anda.</p>
+            </div>
+          </div>
+          <div class="phase reveal">
+            <span class="node" aria-hidden="true"></span>
+            <div class="phase-card">
+              <span class="phase-num" data-i18n="ph2_n">Fase 02</span>
+              <h3>Activation</h3>
+              <p data-i18n="ph2_p">Guru-guru mulai melangkah: pengalaman belajar pertama yang membangun rasa percaya diri.</p>
+            </div>
+          </div>
+          <div class="phase reveal">
+            <span class="node" aria-hidden="true"></span>
+            <div class="phase-card">
+              <span class="phase-num" data-i18n="ph3_n">Fase 03</span>
+              <h3>Planting</h3>
+              <p data-i18n="ph3_p">Praktik baik mulai tertanam di kelas — proyek nyata siswa, bukan sekadar teori.</p>
+            </div>
+          </div>
+          <div class="phase reveal">
+            <span class="node" aria-hidden="true"></span>
+            <div class="phase-card">
+              <span class="phase-num" data-i18n="ph4_n">Fase 04</span>
+              <h3>Adaptation</h3>
+              <p data-i18n="ph4_p">Sekolah menyesuaikan dengan iramanya sendiri; kami mendampingi di setiap penyesuaian.</p>
+            </div>
+          </div>
+          <div class="phase reveal">
+            <span class="node" aria-hidden="true"></span>
+            <div class="phase-card">
+              <span class="phase-num" data-i18n="ph5_n">Fase 05</span>
+              <h3>Continuity</h3>
+              <p data-i18n="ph5_p">Transformasi menjadi milik sekolah — budaya belajar yang terus hidup, tanpa bergantung pada kami.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="journey-note reveal" data-i18n="jour_note">Perjalanan ini milik sekolah Anda. Kami hanya pemandunya.</p>
+      </div>
+    </section>
+
+    <!-- ================= S4 · BENEFITS ================= -->
+    <section id="benefits">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow reveal" data-i18n="ben_eyebrow">Hasil yang terasa</span>
+          <h2 class="reveal" style="--d:.08s" data-i18n="ben_h2">Apa yang berubah — bagi setiap orang yang Anda pimpin</h2>
+        </div>
+        <div class="benefit-grid">
+          <div class="benefit-card reveal">
+            <span class="benefit-tag" data-i18n="ben1_tag">Untuk Guru</span>
+            <h3 data-i18n="ben1_h">Kapasitas &amp; kepercayaan diri</h3>
+            <p data-i18n="ben1_p">Guru bertumbuh melalui pendampingan yang manusiawi, dengan jalur Apple Teacher yang diakui secara global.</p>
+          </div>
+          <div class="benefit-card reveal" style="--d:.1s">
+            <span class="benefit-tag" data-i18n="ben2_tag">Untuk Siswa</span>
+            <h3 data-i18n="ben2_h">Pola pikir kreator</h3>
+            <p data-i18n="ben2_p">Siswa berhenti sekadar mengonsumsi materi — mereka menciptakan karya nyata yang bisa dibanggakan.</p>
+          </div>
+          <div class="benefit-card feature reveal" style="--d:.2s">
+            <span class="benefit-tag" data-i18n="ben3_tag">Untuk Sekolah</span>
+            <h3 data-i18n="ben3_h">Identitas inovasi yang terlihat</h3>
+            <p data-i18n="ben3_p">Cerita investasi yang kokoh di hadapan yayasan dan orang tua — didukung bukti pembelajaran, bukan janji.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S5 · PROOF ================= -->
+    <section id="proof">
+      <div class="wrap">
+        <div class="sec-head" style="margin-inline:auto; text-align:center; justify-items:center;">
+          <span class="eyebrow reveal" data-i18n="proof_eyebrow">Bukti perjalanan</span>
+          <h2 class="reveal" style="--d:.08s" data-i18n="proof_h2">Hasil yang sudah bertumbuh</h2>
+        </div>
+
+        <div class="proof-stats">
+          <div class="stat reveal">
+            <span class="num">3</span>
+            <span class="lbl" data-i18n="stat1">Pemenang Swift Student Challenge — tiga tahun berturut-turut dari program kami</span>
+          </div>
+          <div class="stat reveal" style="--d:.1s">
+            <span class="num">42+</span>
+            <span class="lbl" data-i18n="stat2">Siswa dalam satu angkatan Road-to-SSC</span>
+          </div>
+          <div class="stat reveal" style="--d:.2s">
+            <span class="num">2024</span>
+            <span class="lbl" data-i18n="stat3">Program berjalan di Jabodetabek, Bali &amp; Batam sejak 2024</span>
+          </div>
+        </div>
+
+        <figure class="story reveal">
+          <p class="quote" data-i18n="story_q">Sebuah sekolah memulai dengan satu kelas dan guru-guru yang ragu menyentuh iPad. Dua semester kemudian, siswa-siswanya mempresentasikan aplikasi karya sendiri di hadapan orang tua — dan yayasan meminta program diperluas ke seluruh jenjang.</p>
+          <figcaption class="attrib" data-i18n="story_a">Kisah salah satu sekolah mitra · Jabodetabek</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= S6 · TEAM ================= -->
+    <section id="team">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow reveal" data-i18n="team_eyebrow">Pemandu Anda</span>
+          <h2 class="reveal" style="--d:.08s" data-i18n="team_h2">Pendidik lebih dulu, teknolog kemudian</h2>
+        </div>
+        <!-- TODO: ganti nama & inisial founder sebelum rilis -->
+        <div class="team-grid">
+          <div class="team-card reveal">
+            <div class="avatar" aria-hidden="true">Aa</div>
+            <h3 data-i18n="tm1_n">[Nama Founder 1]</h3>
+            <span class="role" data-i18n="tm1_r">Co-Founder · Desain Pembelajaran</span>
+            <span class="badge">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 0l1.6 3.3L11 3.8 8.5 6.3 9.1 10 6 8.3 2.9 10l.6-3.7L1 3.8l3.4-.5L6 0Z" fill="#990FFA"/></svg>
+              Apple Professional Learning Specialist
+            </span>
+          </div>
+          <div class="team-card reveal" style="--d:.1s">
+            <div class="avatar" aria-hidden="true">Bb</div>
+            <h3 data-i18n="tm2_n">[Nama Founder 2]</h3>
+            <span class="role" data-i18n="tm2_r">Co-Founder · Program &amp; Kemitraan Sekolah</span>
+            <span class="badge">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 0l1.6 3.3L11 3.8 8.5 6.3 9.1 10 6 8.3 2.9 10l.6-3.7L1 3.8l3.4-.5L6 0Z" fill="#990FFA"/></svg>
+              Apple Professional Learning Specialist
+            </span>
+          </div>
+          <div class="team-card reveal" style="--d:.2s">
+            <div class="avatar" aria-hidden="true">Cc</div>
+            <h3 data-i18n="tm3_n">[Nama Founder 3]</h3>
+            <span class="role" data-i18n="tm3_r">Co-Founder · Teknologi Kreatif</span>
+            <span class="badge">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 0l1.6 3.3L11 3.8 8.5 6.3 9.1 10 6 8.3 2.9 10l.6-3.7L1 3.8l3.4-.5L6 0Z" fill="#990FFA"/></svg>
+              Apple Professional Learning Specialist
+            </span>
+          </div>
+        </div>
+        <p class="team-phil reveal" data-i18n="team_phil">Kami percaya teknologi hanyalah medium — manusia selalu yang utama.</p>
+      </div>
+    </section>
+
+    <!-- ================= S7 · FINAL CTA ================= -->
+    <section id="book">
+      <div class="wrap">
+        <div class="book-panel reveal">
+          <div class="book-inner">
+            <span class="eyebrow" style="color:#FFC7E4" data-i18n="book_eyebrow">Langkah sadar pertama</span>
+            <h2 data-i18n="book_h2">Mulailah dengan sebuah percakapan</h2>
+            <p class="lede" data-i18n="book_sub">Sesi diskusi 30 menit tentang konteks sekolah Anda — bukan presentasi penjualan. Kami mendengarkan; Anda memutuskan langkah berikutnya.</p>
+            <div class="book-alt">
+              <a class="btn btn-light js-cta" id="scheduler-cta" href="#" target="_blank" rel="noopener">
+                <span data-i18n="cta_main2">Jadwalkan Sesi Diskusi</span>
+                <span class="arr" aria-hidden="true">→</span>
+              </a>
+              <a class="alt-link js-cta" id="wa-link" href="#" target="_blank" rel="noopener">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 13.9c-.2.6-1.2 1.1-1.7 1.2-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.7 1.7.8 1.8c0 .1.1.3 0 .4-.1.2-.1.3-.3.5l-.4.5c-.2.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.2.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.3Z"/></svg>
+                <span data-i18n="book_wa">Chat lewat WhatsApp</span>
+              </a>
+              <a class="alt-link js-cta" id="email-link" href="#">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg>
+                <span id="email-text">halo@innovationcellar.com</span>
+              </a>
+            </div>
+            <p style="font-size:.76rem; opacity:.75;" data-i18n="book_note">Tanpa komitmen. Percakapan tentang sekolah Anda, bukan tentang kami.</p>
+          </div>
+          <!-- Inline scheduler: activates automatically when CONFIG.schedulerUrl is set -->
+          <div class="scheduler-shell" id="scheduler-shell"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <strong style="font-family:var(--serif); font-size:1rem; color:var(--ink);">Innovation Cellar</strong><br>
+        PT Inovasi Cita Gemilang<br>
+        <span data-i18n="foot_loc">Jakarta, Indonesia</span>
+      </div>
+      <div style="text-align:right;">
+        <a href="mailto:halo@innovationcellar.com">halo@innovationcellar.com</a><br>
+        <a href="https://instagram.com/innovationcellar" target="_blank" rel="noopener">Instagram</a><br>
+        © 2026 PT Inovasi Cita Gemilang
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA -->
+  <div class="sticky-cta" id="sticky-cta">
+    <a class="btn js-cta" href="#book"><span data-i18n="cta_sticky">Jadwalkan Sesi Diskusi</span> <span class="arr" aria-hidden="true">→</span></a>
+  </div>
+
+  <script>
+    /* ============================================================
+       CONFIG — fill these in before launch.
+       schedulerUrl: your live Cal.com / Calendly booking URL.
+                     When set, it powers the main CTA and embeds inline.
+       ============================================================ */
+    const CONFIG = {
+      schedulerUrl: "",                 // e.g. "https://cal.com/innovation-cellar/discovery"
+      embedScheduler: true,             // embed inline in the final CTA panel
+      whatsappNumber: "6281234567890",  // TODO: replace with real number
+      email: "halo@innovationcellar.com",
+      whatsappMessage: {
+        id: "Halo Innovation Cellar, saya ingin menjadwalkan sesi diskusi untuk sekolah kami.",
+        en: "Hello Innovation Cellar, I would like to book a discovery call for our school."
+      }
+    };
+
+    /* ---------------- i18n ---------------- */
+    const I18N = {
+      id: {
+        _title: "Innovation Cellar — Transformasi Pembelajaran Sekolah",
+        _desc: "Innovation Cellar adalah mitra pedagogi untuk transformasi pembelajaran sekolah yang bermakna — pelatihan guru iPad dan ekosistem Apple education di Indonesia.",
+        cta_short: "Jadwalkan Sesi Diskusi",
+        cta_main: "Jadwalkan Sesi Diskusi",
+        cta_main2: "Jadwalkan Sesi Diskusi",
+        cta_sticky: "Jadwalkan Sesi Diskusi",
+        hero_h1: 'Transformasi sekolah dimulai dari <em class="accent-ital">manusianya</em>, bukan perangkatnya.',
+        hero_sub: "Innovation Cellar adalah mitra pedagogi untuk transformasi sekolah yang bermakna — didukung ekosistem pembelajaran Apple.",
+        hero_trust: "Dipercaya sekolah-sekolah di Jabodetabek, Bali & Batam",
+        chip_apls: "Apple Professional Learning Specialist",
+        chip_ssc: "3× Swift Student Challenge",
+        chip_since: "Mendampingi sekolah sejak 2024",
+        prob_eyebrow: "Yang sering terjadi",
+        prob_h2: "Mungkin ini terasa akrab di sekolah Anda",
+        pain1_h: "Perangkat sudah dibeli, tapi jarang tersentuh",
+        pain1_p: "iPad dan teknologi sudah hadir di sekolah — namun pembelajaran di kelas masih berjalan seperti sebelumnya.",
+        pain2_h: "Pelatihan berhenti saat pelatihnya pulang",
+        pain2_p: "Semangat guru menyala saat workshop, lalu perlahan padam karena tidak ada pendampingan yang berkelanjutan.",
+        pain3_h: "Yayasan dan orang tua menunggu bukti",
+        pain3_p: "Investasi teknologi perlu terlihat hasilnya pada pembelajaran yang nyata — bukan sekadar di brosur sekolah.",
+        jour_eyebrow: "Perjalanan, bukan paket",
+        jour_h2: "Lima fase yang tumbuh bersama sekolah Anda",
+        jour_sub: "Setiap sekolah punya irama sendiri. Perjalanan ini mengikuti irama Anda — bukan sebaliknya.",
+        ph1_n: "Fase 01", ph2_n: "Fase 02", ph3_n: "Fase 03", ph4_n: "Fase 04", ph5_n: "Fase 05",
+        ph1_p: "Kami mendengarkan lebih dulu — memahami konteks, budaya, dan cita-cita sekolah Anda.",
+        ph2_p: "Guru-guru mulai melangkah: pengalaman belajar pertama yang membangun rasa percaya diri.",
+        ph3_p: "Praktik baik mulai tertanam di kelas — proyek nyata siswa, bukan sekadar teori.",
+        ph4_p: "Sekolah menyesuaikan dengan iramanya sendiri; kami mendampingi di setiap penyesuaian.",
+        ph5_p: "Transformasi menjadi milik sekolah — budaya belajar yang terus hidup, tanpa bergantung pada kami.",
+        jour_note: "Perjalanan ini milik sekolah Anda. Kami hanya pemandunya.",
+        ben_eyebrow: "Hasil yang terasa",
+        ben_h2: "Apa yang berubah — bagi setiap orang yang Anda pimpin",
+        ben1_tag: "Untuk Guru", ben2_tag: "Untuk Siswa", ben3_tag: "Untuk Sekolah",
+        ben1_h: "Kapasitas & kepercayaan diri",
+        ben1_p: "Guru bertumbuh melalui pendampingan yang manusiawi, dengan jalur Apple Teacher yang diakui secara global.",
+        ben2_h: "Pola pikir kreator",
+        ben2_p: "Siswa berhenti sekadar mengonsumsi materi — mereka menciptakan karya nyata yang bisa dibanggakan.",
+        ben3_h: "Identitas inovasi yang terlihat",
+        ben3_p: "Cerita investasi yang kokoh di hadapan yayasan dan orang tua — didukung bukti pembelajaran, bukan janji.",
+        proof_eyebrow: "Bukti perjalanan",
+        proof_h2: "Hasil yang sudah bertumbuh",
+        stat1: "Pemenang Swift Student Challenge — tiga tahun berturut-turut dari program kami",
+        stat2: "Siswa dalam satu angkatan Road-to-SSC",
+        stat3: "Program berjalan di Jabodetabek, Bali & Batam sejak 2024",
+        story_q: "Sebuah sekolah memulai dengan satu kelas dan guru-guru yang ragu menyentuh iPad. Dua semester kemudian, siswa-siswanya mempresentasikan aplikasi karya sendiri di hadapan orang tua — dan yayasan meminta program diperluas ke seluruh jenjang.",
+        story_a: "Kisah salah satu sekolah mitra · Jabodetabek",
+        team_eyebrow: "Pemandu Anda",
+        team_h2: "Pendidik lebih dulu, teknolog kemudian",
+        tm1_n: "[Nama Founder 1]", tm2_n: "[Nama Founder 2]", tm3_n: "[Nama Founder 3]",
+        tm1_r: "Co-Founder · Desain Pembelajaran",
+        tm2_r: "Co-Founder · Program & Kemitraan Sekolah",
+        tm3_r: "Co-Founder · Teknologi Kreatif",
+        team_phil: "Kami percaya teknologi hanyalah medium — manusia selalu yang utama.",
+        book_eyebrow: "Langkah sadar pertama",
+        book_h2: "Mulailah dengan sebuah percakapan",
+        book_sub: "Sesi diskusi 30 menit tentang konteks sekolah Anda — bukan presentasi penjualan. Kami mendengarkan; Anda memutuskan langkah berikutnya.",
+        book_wa: "Chat lewat WhatsApp",
+        book_note: "Tanpa komitmen. Percakapan tentang sekolah Anda, bukan tentang kami.",
+        foot_loc: "Jakarta, Indonesia"
+      },
+      en: {
+        _title: "Innovation Cellar — Meaningful School Transformation",
+        _desc: "Innovation Cellar is a pedagogy partner for meaningful school transformation — teacher professional learning powered by the Apple learning ecosystem, in Indonesia.",
+        cta_short: "Book a Discovery Call",
+        cta_main: "Book a Discovery Call",
+        cta_main2: "Book a Discovery Call",
+        cta_sticky: "Book a Discovery Call",
+        hero_h1: 'School transformation begins with its <em class="accent-ital">people</em>, not its devices.',
+        hero_sub: "Innovation Cellar is a pedagogy partner for meaningful school transformation — powered by the Apple learning ecosystem.",
+        hero_trust: "Trusted by schools across Jabodetabek, Bali & Batam",
+        chip_apls: "Apple Professional Learning Specialist",
+        chip_ssc: "3× Swift Student Challenge",
+        chip_since: "Guiding schools since 2024",
+        prob_eyebrow: "The familiar story",
+        prob_h2: "Perhaps this feels familiar at your school",
+        pain1_h: "Devices purchased, rarely touched",
+        pain1_p: "iPads and technology have arrived at school — yet classroom learning still runs the way it always has.",
+        pain2_h: "Training that ends when the trainer leaves",
+        pain2_p: "Teachers light up during the workshop, then the spark slowly fades — because no one stays alongside them.",
+        pain3_h: "The yayasan and parents are waiting for proof",
+        pain3_p: "A technology investment must show up in real learning — not just in the school brochure.",
+        jour_eyebrow: "A journey, not a package",
+        jour_h2: "Five phases that grow with your school",
+        jour_sub: "Every school has its own rhythm. This journey follows yours — not the other way around.",
+        ph1_n: "Phase 01", ph2_n: "Phase 02", ph3_n: "Phase 03", ph4_n: "Phase 04", ph5_n: "Phase 05",
+        ph1_p: "We listen first — understanding your school's context, culture, and aspirations.",
+        ph2_p: "Teachers take their first steps: early learning experiences that build confidence.",
+        ph3_p: "Good practice takes root in classrooms — real student projects, not theory.",
+        ph4_p: "Your school adapts at its own rhythm; we stay alongside through every adjustment.",
+        ph5_p: "The transformation becomes yours — a learning culture that lives on, without depending on us.",
+        jour_note: "This journey belongs to your school. We are only the guide.",
+        ben_eyebrow: "Outcomes you can feel",
+        ben_h2: "What changes — for everyone you lead",
+        ben1_tag: "For Teachers", ben2_tag: "For Students", ben3_tag: "For Your School",
+        ben1_h: "Capability & confidence",
+        ben1_p: "Teachers grow through humane, sustained mentoring — with the globally recognized Apple Teacher pathway.",
+        ben2_h: "A creator mindset",
+        ben2_p: "Students stop merely consuming material — they create real work they are proud of.",
+        ben3_h: "A visible innovation identity",
+        ben3_p: "A defensible investment story for your yayasan and parents — backed by evidence of learning, not promises.",
+        proof_eyebrow: "Proof of the journey",
+        proof_h2: "Results that have already grown",
+        stat1: "Swift Student Challenge winners — three consecutive years from our programs",
+        stat2: "Students in a single Road-to-SSC cohort",
+        stat3: "Programs delivered across Jabodetabek, Bali & Batam since 2024",
+        story_q: "One school began with a single class and teachers hesitant to touch an iPad. Two semesters later, its students presented apps they built themselves to their parents — and the yayasan asked for the program to expand across every grade.",
+        story_a: "A partner school's story · Jabodetabek",
+        team_eyebrow: "Who guides you",
+        team_h2: "Educators first, technologists second",
+        tm1_n: "[Founder Name 1]", tm2_n: "[Founder Name 2]", tm3_n: "[Founder Name 3]",
+        tm1_r: "Co-Founder · Learning Design",
+        tm2_r: "Co-Founder · Programs & School Partnerships",
+        tm3_r: "Co-Founder · Creative Technology",
+        team_phil: "We believe technology is only the medium — people always come first.",
+        book_eyebrow: "Your first conscious step",
+        book_h2: "Begin with a conversation",
+        book_sub: "A 30-minute discovery call about your school's context — not a sales pitch. We listen; you decide what comes next.",
+        book_wa: "Chat on WhatsApp",
+        book_note: "No commitment. A conversation about your school, not about us.",
+        foot_loc: "Jakarta, Indonesia"
+      }
+    };
+
+    let currentLang = localStorage.getItem("ic-lang") || "id";
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem("ic-lang", lang);
+      document.documentElement.lang = lang;
+      document.title = I18N[lang]._title;
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute("content", I18N[lang]._desc);
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+      });
+      document.getElementById("lang-id").classList.toggle("active", lang === "id");
+      document.getElementById("lang-en").classList.toggle("active", lang === "en");
+      wireContacts();
+      track("Language Toggle", { lang });
+    }
+
+    /* ---------------- Contact wiring ---------------- */
+    function wireContacts() {
+      const wa = document.getElementById("wa-link");
+      wa.href = "https://wa.me/" + CONFIG.whatsappNumber +
+        "?text=" + encodeURIComponent(CONFIG.whatsappMessage[currentLang]);
+      document.getElementById("email-link").href = "mailto:" + CONFIG.email;
+      document.getElementById("email-text").textContent = CONFIG.email;
+
+      const cta = document.getElementById("scheduler-cta");
+      const shell = document.getElementById("scheduler-shell");
+      if (CONFIG.schedulerUrl) {
+        cta.href = CONFIG.schedulerUrl;
+        if (CONFIG.embedScheduler && !shell.classList.contains("active")) {
+          shell.classList.add("active");
+          const f = document.createElement("iframe");
+          f.src = CONFIG.schedulerUrl;
+          f.loading = "lazy";
+          f.title = "Scheduler";
+          shell.appendChild(f);
+          cta.removeAttribute("target"); // scroll to embed instead
+          cta.href = "#scheduler-shell";
+        }
+      } else {
+        // no scheduler yet → WhatsApp is the booking path
+        cta.href = wa.href;
+      }
+    }
+
+    /* ---------------- Analytics ---------------- */
+    function track(name, props) {
+      if (window.plausible) plausible(name, { props: props || {} });
+      if (window.gtag) gtag("event", name.toLowerCase().replace(/\s+/g, "_"), props || {});
+    }
+    document.addEventListener("click", e => {
+      const cta = e.target.closest(".js-cta");
+      if (cta) track("CTA Click", { location: cta.closest("section, header, .sticky-cta")?.id || "nav", lang: currentLang });
+    });
+
+    /* ---------------- Scroll effects ---------------- */
+    const header = document.getElementById("header");
+    const sticky = document.getElementById("sticky-cta");
+    const hero = document.querySelector(".hero");
+    const book = document.getElementById("book");
+
+    let journeyReached = false;
+    addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", scrollY > 24);
+      // mobile sticky CTA: show after hero, hide once the booking panel is on screen
+      const heroGone = scrollY > hero.offsetHeight * .7;
+      const bookVisible = book.getBoundingClientRect().top < innerHeight;
+      sticky.classList.toggle("show", heroGone && !bookVisible);
+      // scroll-depth event: past journey section (PRD secondary metric)
+      if (!journeyReached && document.getElementById("journey").getBoundingClientRect().bottom < innerHeight) {
+        journeyReached = true;
+        track("Scroll Past Journey");
+      }
+    }, { passive: true });
+
+    /* ---------------- Reveal on scroll ---------------- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: .12, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+    // Safety net: if the observer never fires (odd webviews), show everything.
+    setTimeout(() => document.querySelectorAll(".reveal:not(.in)").forEach(el => el.classList.add("in")), 2500);
+
+    /* ---------------- Init ---------------- */
+    setLang(currentLang);
+  </script>
+</body>
+</html>

@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morphé — Human-Centered Learning</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Montserrat:wght@300;400;500;600;700;800;900&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #990FFA;
+      --secondary: #E60076;
+      --success: #16A34A;
+      --warning: #D97706;
+      --danger: #DC2626;
+      --surface: #FFFFFF;
+      --text: #150e0e;
+
+      --ink: var(--text);
+      --muted: #6B7280;
+      --paper: var(--surface);
+      --line: rgba(17, 24, 39, .08);
+      --deep: #5E00B3;
+      --violet: #D4B2FF;
+      --rose: var(--secondary);
+      --lav: #F3EAFF;
+      --plum: var(--primary);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      overflow: hidden
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .app-shell {
+      width: 100%;
+      height: 100%;
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(215, 196, 255, .32) 0%, rgba(215, 196, 255, .08) 28%, rgba(253, 250, 254, 0) 52%),
+        radial-gradient(circle at 70% 80%, rgba(240, 200, 225, .22) 0%, rgba(240, 200, 225, .06) 26%, rgba(253, 250, 254, 0) 52%),
+        linear-gradient(180deg, #fffdfd 0%, #fbf8fc 100%);
+    }
+
+    .app-shell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .42;
+      background-image:
+        linear-gradient(rgba(68, 29, 91, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(68, 29, 91, .03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to right, transparent 0%, black 14%, black 100%);
+    }
+
+    .content-wrap {
+      width: 100%;
+      height: calc(100 * min(var(--vh, 1vh), 1vh));
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+      padding: 30px 44px 60px 44px;
+    }
+
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, .94fr) minmax(430px, 1.06fr);
+      gap: 22px;
+      align-items: stretch;
+      margin-top: 24px;
+    }
+
+    .bottom-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 44px;
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: #a08da9;
+      text-transform: uppercase;
+    }
+
+    .interaction-panel,
+    .visualization-panel {
+      position: relative;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .interaction-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px 32px 28px;
+      animation: rise .9s ease both;
+      min-height: 580px;
+    }
+
+    .visualization-panel {
+      min-height: 580px;
+      animation: fadeIn 1.1s ease .15s both;
+    }
+
+    .state-wrap {
+      position: relative;
+      min-height: 440px;
+    }
+
+    .state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      will-change: transform, opacity;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .state.hidden-state {
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .state.enter-from-right {
+      animation: enterFade .3s cubic-bezier(0.32, 0.72, 0, 1) both;
+      visibility: visible;
+    }
+
+    .state.exit-to-left {
+      animation: exitFade .3s cubic-bezier(0.32, 0.72, 0, 1) both;
+      visibility: visible;
+    }
+
+    /* Coordinated Child Staggers */
+    @keyframes enterFade {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes exitFade {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Staggered triggers when container enters */
+    .state.enter-from-right .eyebrow,
+    .state.enter-from-right .quiz-kicker {
+      animation: slideUpFade 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+      animation-delay: 0ms;
+    }
+
+    .state.enter-from-right .headline,
+    .state.enter-from-right .quiz-headline {
+      animation: slideUpFade 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+      animation-delay: 60ms;
+    }
+
+    .state.enter-from-right .subcopy,
+    .state.enter-from-right .quiz-question {
+      animation: slideUpFade 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+      animation-delay: 120ms;
+    }
+
+    .state.enter-from-right .cta-row,
+    .state.enter-from-right .answer-list,
+    .state.enter-from-right .quiz-bottom,
+    .state.enter-from-right .menu-container {
+      animation: slideUpFade 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+      animation-delay: 180ms;
+    }
+
+    .hero-copy {
+      max-width: 700px
+    }
+
+    .eyebrow {
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      color: #9a84a8;
+      margin-bottom: 24px;
+    }
+
+    .headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(54px, 6.4vw, 88px);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      font-weight: 400;
+      max-width: 680px;
+      margin: 0;
+    }
+
+    .subcopy {
+      max-width: 500px;
+      margin-top: 28px;
+      font-size: 19px;
+      line-height: 1.65;
+      color: #7a6886;
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border: none;
+      padding: 16px 22px 16px 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(153, 15, 250, .85) 0%, rgba(108, 53, 127, .85) 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: -.01em;
+      box-shadow: 0 12px 28px rgba(153, 15, 250, .15), inset 0 1px 0 rgba(255, 255, 255, .16);
+      transition: .25s ease;
+      cursor: pointer;
+      min-height: 50px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(170, 40, 255, .9) 0%, rgba(125, 65, 145, .9) 100%);
+      box-shadow: 0 16px 34px rgba(153, 15, 250, .2), inset 0 1px 0 rgba(255, 255, 255, .2)
+    }
+
+    .primary-btn:focus-visible,
+    .answer-choice:focus-visible {
+      outline: 3px solid rgba(153, 15, 250, .24);
+      outline-offset: 3px;
+    }
+
+    .tiny-note {
+      font-size: 12px;
+      color: #9a8ba3;
+      line-height: 1.45;
+      max-width: 180px;
+    }
+
+    .quiz-kicker {
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      color: #9a84a8;
+      margin-bottom: 24px;
+    }
+
+    .quiz-headline {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(42px, 4.8vw, 68px);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      font-weight: 400;
+      max-width: 650px;
+      margin: 0;
+    }
+
+    .quiz-question {
+      margin-top: 26px;
+      max-width: 520px;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #7a6886;
+    }
+
+    .answer-list {
+      display: grid;
+      gap: 12px;
+      max-width: 540px;
+      margin-top: 28px;
+    }
+
+    .answer-choice {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(94, 52, 113, .12);
+      background: rgba(255, 252, 255, .72);
+      color: #634c6d;
+      border-radius: 18px;
+      padding: 17px 18px;
+      font-size: 14px;
+      line-height: 1.45;
+      transition: .25s ease;
+      cursor: pointer;
+      backdrop-filter: blur(2px);
+    }
+
+    .answer-choice:hover {
+      border-color: rgba(123, 76, 145, .28);
+      background: #fffafd;
+      transform: translateY(-1px);
+    }
+
+    .answer-choice.selected {
+      border-color: #b48dcc;
+      background: #f8effb;
+      color: #4a2e58;
+      box-shadow: inset 0 0 0 1px rgba(180, 141, 204, .65);
+    }
+
+    .quiz-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 540px;
+      margin-top: 28px;
+    }
+
+    .progress-label {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #a08da9;
+    }
+
+    .next-btn[disabled] {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .menu-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .menu-item {
+      width: auto;
+      text-align: left;
+      border: none;
+      background: transparent;
+      color: #634c6d;
+      border-radius: 0;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.45;
+      transition: .25s ease;
+      cursor: pointer;
+      backdrop-filter: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      border-bottom: 2px solid transparent;
+    }
+
+    .menu-item:hover {
+      border-color: transparent;
+      background: transparent;
+      transform: none;
+      color: #4a2e58;
+    }
+
+    .menu-item.selected {
+      border-bottom-color: #634c6d;
+    }
+
+    .menu-item:focus-visible {
+      outline: 3px solid rgba(153, 15, 250, .24);
+      outline-offset: 3px;
+    }
+
+    .menu-expandable-header {
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: #634c6d;
+      border-radius: 0;
+      position: relative;
+      border-bottom: 2px solid transparent;
+      transition: .25s ease
+    }
+
+    .menu-expandable-header.expanded {
+      border-bottom-color: #634c6d
+    }
+
+    .menu-expandable-header:hover {
+      background: transparent;
+      border-color: transparent;
+      color: #4a2e58;
+      transform: none
+    }
+
+    .menu-expandable-header i,
+    .menu-expandable-header svg {
+      transition: transform .25s ease;
+      margin-left: 8px
+    }
+
+    .menu-expandable-header.expanded i,
+    .menu-expandable-header.expanded svg {
+      transform: rotate(180deg)
+    }
+
+    .menu-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      overflow: hidden;
+      opacity: 0;
+      transition: grid-template-rows .4s cubic-bezier(.22, 1, .36, 1), opacity .4s cubic-bezier(.22, 1, .36, 1);
+      pointer-events: none;
+    }
+
+    .menu-submenu:not(.hidden) {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .menu-submenu.hidden {
+      grid-template-rows: 0fr;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .menu-submenu-inner {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-left: 12px;
+      padding-bottom: 8px;
+    }
+
+    .menu-subitem {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      color: #7a6886;
+      border-radius: 0;
+      padding: 6px 0;
+      padding-left: 16px;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: .25s ease;
+      cursor: pointer;
+      backdrop-filter: none;
+      font-weight: 400;
+      position: relative;
+      border-bottom: 1px solid transparent;
+    }
+
+    .menu-subitem:hover {
+      border-color: transparent;
+      background: transparent;
+      transform: none;
+      color: #634c6d;
+    }
+
+    .menu-subitem.selected {
+      border-bottom-color: #7a6886;
+    }
+
+    .menu-subitem:focus-visible {
+      outline: 3px solid rgba(153, 15, 250, .24);
+      outline-offset: 2px;
+    }
+
+    .menu-schedule-btn {
+      background: transparent;
+      color: #ffffff;
+      border: none;
+      font-weight: 700;
+      padding: 0;
+      margin-top: 8px;
+    }
+
+    .menu-schedule-btn:hover {
+      background: transparent;
+      transform: none;
+      text-decoration: underline;
+    }
+
+    .visual-stage {
+      position: absolute;
+      inset: 42px -40px 20px -40px;
+      overflow: visible;
+    }
+
+    .visual-stage::before {
+      content: '';
+      position: absolute;
+      inset: 20% 15% 25% 20%;
+      border-radius: 48% 52% 58% 42% / 47% 41% 59% 53%;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(222, 205, 255, .72), transparent 35%),
+        radial-gradient(circle at 72% 34%, rgba(243, 187, 219, .56), transparent 38%),
+        radial-gradient(circle at 52% 72%, rgba(234, 216, 255, .54), transparent 42%);
+      filter: blur(28px);
+      opacity: .86;
+      animation: ambientMorph 13s ease-in-out infinite, smoothBreathe 3.2s ease-in-out infinite;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .canvas-wrap {
+      position: absolute;
+      inset: 4% -5% 7% -5%;
+      border-radius: 34px;
+      overflow: hidden;
+    }
+
+    #morphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    .visual-caption {
+      position: absolute;
+      right: 3%;
+      bottom: 2%;
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #a48cb0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visual-caption::before {
+      content: '';
+      width: 42px;
+      height: 1px;
+      background: #d5c5dd;
+      display: block;
+    }
+
+    .principles {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap
+    }
+
+    .principles span {
+      position: relative
+    }
+
+    .principles span:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #d2c1d7;
+      transform: translateY(-50%);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes ambientMorph {
+
+      0%,
+      100% {
+        border-radius: 48% 52% 58% 42% / 47% 41% 59% 53%;
+        transform: scale(1) rotate(0deg)
+      }
+
+      50% {
+        border-radius: 60% 40% 44% 56% / 40% 56% 44% 60%;
+        transform: scale(1.03) rotate(5deg)
+      }
+    }
+
+    @keyframes smoothBreathe {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: .86
+      }
+
+      50% {
+        transform: scale(1.08);
+        opacity: .72
+      }
+    }
+
+    @keyframes exitToLeft {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0)
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-34px);
+        filter: blur(8px)
+      }
+    }
+
+    @keyframes enterFromRight {
+      0% {
+        opacity: 0;
+        transform: translateX(34px);
+        filter: blur(8px)
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0)
+      }
+    }
+
+    @media (max-width: 980px) {
+
+      html,
+      body {
+        overflow: auto
+      }
+
+      .content-wrap {
+        padding: 24px 24px 20px
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr
+      }
+
+      .interaction-panel {
+        min-height: 500px
+      }
+
+      .visualization-panel {
+        min-height: 390px
+      }
+
+      .headline {
+        font-size: clamp(52px, 9vw, 76px)
+      }
+    }
+
+    @media (max-width: 640px) {
+      .content-wrap {
+        padding: 20px 16px 16px
+      }
+
+      .brand-text,
+      .top-label {
+        display: none
+      }
+
+      .main-grid {
+        margin-top: 18px;
+        gap: 14px
+      }
+
+      .interaction-panel {
+        padding: 22px 20px;
+        min-height: 500px
+      }
+
+      .visualization-panel {
+        min-height: 270px
+      }
+
+      .eyebrow,
+      .quiz-kicker {
+        font-size: 10px;
+        margin-bottom: 18px
+      }
+
+      .headline {
+        font-size: 48px;
+        line-height: 1.02;
+        max-width: 480px
+      }
+
+      .subcopy {
+        font-size: 16px;
+        line-height: 1.55;
+        margin-top: 20px;
+        max-width: 330px
+      }
+
+      .quiz-headline {
+        font-size: 40px
+      }
+
+      .quiz-question {
+        font-size: 15px;
+        line-height: 1.55
+      }
+
+      .cta-row {
+        margin-top: 26px;
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .tiny-note {
+        max-width: 240px
+      }
+
+      .visual-stage {
+        inset: 28px 10px 12px 10px
+      }
+
+      .visual-caption {
+        display: none
+      }
+
+      .bottom-meta {
+        font-size: 8px;
+        letter-spacing: .13em
+      }
+
+      .principles {
+        gap: 16px
+      }
+
+      .principles span:not(:last-child)::after {
+        right: -10px
+      }
+
+      .quiz-bottom {
+        align-items: flex-start;
+        flex-direction: column
+      }
+    }
+
+    /* --- Motion Audit Fixes & Additions --- */
+
+    /* Tactile button & answer active press state feedback */
+    .primary-btn:active,
+    .answer-choice:active {
+      transform: scale(0.97);
+      transition: transform 0.1s ease;
+    }
+
+    /* Primary CTA & Next button icon hover slide reveals */
+    .primary-btn i,
+    .primary-btn svg {
+      transition: transform 0.2s ease;
+    }
+
+    .primary-btn:hover i,
+    .primary-btn:hover svg {
+      transform: translate(2px, -2px);
+    }
+
+    .next-btn:hover i,
+    .next-btn:hover svg {
+      transform: translate(2px, 0);
+    }
+
+    /* Accessibility prefers-reduced-motion fallback */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .visual-stage::before {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <main class="content-wrap">
+      <header class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center border border-[#d9c6e3]">
+            <div class="w-3 h-3 rounded-full bg-[#6c357f]"></div>
+          </div>
+          <div class="brand-text text-[13px] tracking-[0.16em] uppercase font-bold">Morphé</div>
+        </div>
+        <div class="top-label text-[10px] uppercase tracking-[0.18em]">
+          Human-Centered Learning</div>
+      </header>
+      <section class="main-grid" aria-labelledby="hero-title">
+        <section class="interaction-panel">
+          <div class="state-wrap">
+            <div id="heroState" class="state">
+              <div class="hero-copy">
+                <div class="eyebrow">From systems to possibility</div>
+                <h1 id="hero-title" class="headline">Designing learning that
+                  can breathe.</h1>
+                <p class="subcopy">A more human education future begins
+                  when technology moves from control to care.</p>
+                <div class="cta-row">
+                  <button id="startFlow" class="primary-btn" type="button">
+                    <span>Start my School transformation</span> <i data-lucide="arrow-up-right"
+                      style="width:17px;height:17px;"></i> </button>
+                  <p class="tiny-note">A 90-second reflection. No obligation,
+                    only clarity.</p>
+                </div>
+              </div>
+            </div>
+            <div id="quizState" class="state hidden-state" aria-live="polite">
+              <div class="hero-copy">
+                <div class="quiz-kicker">Self-Reflection</div>
+                <h2 class="quiz-headline"></h2>
+                <p id="questionText" class="quiz-question"></p>
+                <div class="answer-list">
+                  <button id="answerOne" class="answer-choice" type="button"></button> <button id="answerTwo"
+                    class="answer-choice" type="button"></button>
+                </div>
+                <div class="quiz-bottom">
+                  <div id="progressLabel" class="progress-label"></div>
+                  <button id="nextQuestion" class="primary-btn next-btn" type="button" disabled> <span>Next
+                      Reflection</span> <i data-lucide="arrow-right" style="width:17px;height:17px;"></i> </button>
+                </div>
+              </div>
+            </div>
+            <div id="completeState" class="state hidden-state">
+              <div class="hero-copy">
+                <div class="quiz-kicker">Reflection Complete</div>
+                <h2 class="quiz-headline">Where will you begin?</h2>
+                <p class="quiz-question">Your reflections point toward a
+                  ready shift in how learning happens. Explore the options below to continue.</p>
+                <div class="menu-container" style="margin-top: 28px; max-width: 540px;">
+                  <button id="journeyBtn" class="menu-item" type="button">
+                    <span>Explore the Journey</span> </button>
+                  <div class="menu-expandable">
+                    <button id="approachBtn" class="menu-item menu-expandable-header" type="button"> <span>Our
+                        Approach</span> <i data-lucide="chevron-down" style="width:17px;height:17px;"></i> </button>
+                    <div id="approachMenu" class="menu-submenu hidden">
+                      <div class="menu-submenu-inner">
+                        <button class="menu-subitem" type="button"><span>The Challenge</span></button>
+                        <button class="menu-subitem" type="button"><span>The Future</span></button> <button
+                          class="menu-subitem" type="button"><span>The People</span></button> <button
+                          class="menu-subitem" type="button"><span>The Technology</span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="menu-expandable">
+                    <button id="aboutBtn" class="menu-item menu-expandable-header" type="button"> <span>About Us</span>
+                      <i data-lucide="chevron-down" style="width:17px;height:17px;"></i> </button>
+                    <div id="aboutMenu" class="menu-submenu hidden">
+                      <div class="menu-submenu-inner">
+                        <button class="menu-subitem" type="button"><span>Our Team</span></button> <button
+                          class="menu-subitem" type="button"><span>Our Work</span></button> <button class="menu-subitem"
+                          type="button"><span>Stories</span></button> <button class="menu-subitem"
+                          type="button"><span>Community</span></button>
+                      </div>
+                    </div>
+                  </div><button id="scheduleBtn" class="menu-item menu-schedule-btn" type="button"> <span>Schedule a
+                      conversation</span> </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="visualization-panel">
+          <div class="visual-stage" aria-hidden="true">
+            <div class="canvas-wrap">
+              <canvas id="morphCanvas"></canvas>
+            </div>
+            <div class="visual-caption">Interactive Morphing Network</div>
+          </div>
+        </section>
+      </section>
+      <footer class="bottom-meta">
+        <div>Morphé — Human-Centered Learning</div>
+        <div class="principles">
+          <span>Humanity</span> <span>Agency</span> <span>Transformation</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script>
+    const questions = [
+      {
+        headline: "Where does change feel most urgent?",
+        question: "Begin with the place that asks for your attention first.",
+        answers: [
+          "In the everyday experience of teachers and learners",
+          "In the wider systems shaping how the school moves"
+        ]
+      },
+      {
+        headline: "What would progress need to feel like?",
+        question: "Not the final destination — just the first meaningful shift.",
+        answers: [
+          "More clarity, alignment, and shared language",
+          "More confidence to act with intention"
+        ]
+      },
+      {
+        headline: "What are you most ready to reimagine?",
+        question: "Choose the area that feels most alive with possibility.",
+        answers: [
+          "How technology supports more human learning",
+          "How leadership turns vision into everyday practice"
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let selectedAnswer = null;
+
+    const heroState = document.getElementById('heroState');
+    const quizState = document.getElementById('quizState');
+    const completeState = document.getElementById('completeState');
+    const startFlow = document.getElementById('startFlow');
+
+    const nextQuestion = document.getElementById('nextQuestion');
+    const answerOne = document.getElementById('answerOne');
+    const answerTwo = document.getElementById('answerTwo');
+    const questionText = document.getElementById('questionText');
+    const progressLabel = document.getElementById('progressLabel');
+    const quizHeadline = document.querySelector('#quizState .quiz-headline');
+
+    // Menu button elements
+    const approachBtn = document.getElementById('approachBtn');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const approachMenu = document.getElementById('approachMenu');
+    const aboutMenu = document.getElementById('aboutMenu');
+
+    // Menu toggle handlers
+    approachBtn.addEventListener('click', () => {
+      const isExpanded = approachBtn.classList.contains('expanded');
+      approachBtn.classList.toggle('expanded');
+      approachMenu.classList.toggle('hidden');
+      if (!isExpanded) {
+        approachBtn.classList.add('selected');
+      } else {
+        approachBtn.classList.remove('selected');
+      }
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      const isExpanded = aboutBtn.classList.contains('expanded');
+      aboutBtn.classList.toggle('expanded');
+      aboutMenu.classList.toggle('hidden');
+      if (!isExpanded) {
+        aboutBtn.classList.add('selected');
+      } else {
+        aboutBtn.classList.remove('selected');
+      }
+    });
+
+    function switchState(from, to) {
+      from.classList.remove('enter-from-right');
+      from.classList.add('exit-to-left');
+
+      setTimeout(() => {
+        from.classList.add('hidden-state');
+        from.classList.remove('exit-to-left');
+        to.classList.remove('hidden-state');
+        to.classList.add('enter-from-right');
+      }, 300);
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQuestion];
+      quizHeadline.textContent = q.headline;
+      questionText.textContent = q.question;
+      answerOne.textContent = q.answers[0];
+      answerTwo.textContent = q.answers[1];
+      progressLabel.textContent = `Reflection ${currentQuestion + 1} / ${questions.length}`;
+      answerOne.classList.remove('selected');
+      answerTwo.classList.remove('selected');
+      nextQuestion.disabled = true;
+      selectedAnswer = null;
+    }
+
+    function animateQuestionChange() {
+      quizState.classList.remove('enter-from-right');
+      quizState.classList.add('exit-to-left');
+
+      setTimeout(() => {
+        renderQuestion();
+        quizState.classList.remove('exit-to-left');
+        quizState.classList.add('enter-from-right');
+      }, 300);
+    }
+
+    startFlow.addEventListener('click', () => {
+      renderQuestion();
+      switchState(heroState, quizState);
+    });
+
+    answerOne.addEventListener('click', () => {
+      answerOne.classList.add('selected');
+      answerTwo.classList.remove('selected');
+      selectedAnswer = 0;
+      nextQuestion.disabled = false;
+    });
+
+    answerTwo.addEventListener('click', () => {
+      answerTwo.classList.add('selected');
+      answerOne.classList.remove('selected');
+      selectedAnswer = 1;
+      nextQuestion.disabled = false;
+    });
+
+    nextQuestion.addEventListener('click', () => {
+      if (selectedAnswer === null) return;
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        animateQuestionChange();
+      } else {
+        switchState(quizState, completeState);
+      }
+    });
+
+    journeyBtn.addEventListener('click', () => {
+      journeyBtn.classList.toggle('selected');
+    });
+
+    lucide.createIcons();
+
+    const canvas = document.getElementById('morphCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, dpr, time = 0;
+    let points = [];
+    let connections = [];
+    const COLS = 4;
+    const ROWS = 5;
+    const FORMATION_DURATION = 20000;
+    let startTime = Date.now();
+    let animFrameId = null;
+    let isPaused = false;
+    let lastPauseTime = 0;
+
+    // Cached gradient to avoid allocation in frame loop
+    let cachedGrd = null;
+    let prevWidth = 0;
+    let prevHeight = 0;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Cache the radial gradient on resize instead of recreating it every frame
+      cachedGrd = ctx.createRadialGradient(width * .52, height * .46, 20, width * .52, height * .5, width * .7);
+      cachedGrd.addColorStop(0, 'rgba(232,214,255,.18)');
+      cachedGrd.addColorStop(.55, 'rgba(246,220,238,.1)');
+      cachedGrd.addColorStop(1, 'rgba(255,255,255,0)');
+
+      buildPoints();
+    }
+
+    function buildPoints() {
+      const spacingX = width / (COLS + 1);
+      const spacingY = height / (ROWS + 1);
+
+      if (points.length === 0) {
+        // Initial point generation
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const targetX = spacingX * (c + 1);
+            const targetY = spacingY * (r + 1);
+            points.push({
+              x: (Math.random() - 0.5) * width * 2.2,
+              y: (Math.random() - 0.5) * height * 2.2,
+              targetX: targetX,
+              targetY: targetY,
+              ox: targetX,
+              oy: targetY,
+              phase: Math.random() * Math.PI * 2,
+              z: Math.random() * 0.8 + 0.1,
+              size: Math.random() * 2.1 + 1.12,
+              settled: false
+            });
+          }
+        }
+        startTime = Date.now();
+      } else {
+        // Scale existing point positions during resize to prevent "jumping"
+        const scaleX = prevWidth ? (width / prevWidth) : 1;
+        const scaleY = prevHeight ? (height / prevHeight) : 1;
+
+        points.forEach((p, idx) => {
+          const r = Math.floor(idx / COLS);
+          const c = idx % COLS;
+          p.targetX = spacingX * (c + 1);
+          p.targetY = spacingY * (r + 1);
+          p.ox = p.targetX;
+          p.oy = p.targetY;
+          p.x *= scaleX;
+          p.y *= scaleY;
+        });
+      }
+
+      prevWidth = width;
+      prevHeight = height;
+
+      connections = [];
+      for (let i = 0; i < points.length; i++) {
+        if ((i + 1) % COLS !== 0) connections.push([i, i + 1]);
+        if (i + COLS < points.length) connections.push([i, i + COLS]);
+      }
+    }
+
+    function draw() {
+      time += 0.01;
+      const elapsed = Date.now() - startTime;
+      const formationProgress = Math.min(elapsed / FORMATION_DURATION, 1);
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Render using cached gradient instead of recreating it
+      if (cachedGrd) {
+        ctx.fillStyle = cachedGrd;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      // Update points
+      points.forEach((p, i) => {
+        if (formationProgress < 1) {
+          p.x += (p.targetX - p.x) * formationProgress * 0.08;
+          p.y += (p.targetY - p.y) * formationProgress * 0.08;
+        } else {
+          p.x = p.ox + Math.sin(time * 1.2 + p.phase) * 3;
+          p.y = p.oy + Math.cos(time * 0.9 + p.phase) * 3;
+        }
+      });
+
+      // Draw connections
+      if (formationProgress >= 1) {
+        connections.forEach(([a, b], idx) => {
+          const p1 = points[a], p2 = points[b];
+          const avgZ = (p1.z + p2.z) / 2;
+          const opacity = 0.08 * (0.5 + avgZ * 0.5);
+
+          const postFormationTime = elapsed - FORMATION_DURATION;
+          const staggerDelay = idx * 3;
+          const connectionRevealProgress = Math.max(0, (postFormationTime - staggerDelay) / 200);
+          const revealOpacity = Math.min(1, connectionRevealProgress);
+
+          if (revealOpacity <= 0) return;
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(145,106,166,${opacity * revealOpacity})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        });
+      }
+
+      // Draw nodes
+      points.forEach((p, i) => {
+        const radius = p.size * p.z * (1.2 + 0.4 * Math.sin(time * 2 + p.phase)) * 1.05;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+
+        const baseOpacity = p.z * 0.8;
+        ctx.fillStyle = i % 3 === 0 ? `rgba(113,69,140,${baseOpacity})` : `rgba(182,145,203,${baseOpacity * 0.9})`;
+        ctx.fill();
+      });
+
+      animFrameId = requestAnimationFrame(draw);
+    }
+
+    // Debounced window resize event to prevent performance lag
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeCanvas, 150);
+    });
+
+    resizeCanvas();
+    draw();
+
+    // Pause canvas animation when tab is inactive or window loses focus to optimize resources
+    function pauseCanvas() {
+      if (!isPaused) {
+        isPaused = true;
+        lastPauseTime = Date.now();
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      }
+    }
+
+    function resumeCanvas() {
+      if (isPaused) {
+        isPaused = false;
+        if (lastPauseTime > 0) {
+          startTime += (Date.now() - lastPauseTime);
+        }
+        draw();
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseCanvas();
+      } else {
+        resumeCanvas();
+      }
+    });
+
+    window.addEventListener('blur', pauseCanvas);
+    window.addEventListener('focus', resumeCanvas);
+
+
+  </script>
+</body>
+
+</html>
